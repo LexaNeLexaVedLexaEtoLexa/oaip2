@@ -1,0 +1,146 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp1
+{
+    class Country
+    {
+        public string nameCry;
+        public string cap;
+        public static List<Country> CountrysList = new List<Country>();
+        public Country(string Name, string Capital)
+        {
+            nameCry = Name;
+            cap = Capital;
+        }
+        public void VvodStrani()
+        {
+            Country country = new Country();
+            Console.Write("Введите название страны: ");
+            country.nameCry = Console.ReadLine();
+            Console.Write("Введите название столицы: ");
+            country.cap = Console.ReadLine();
+            CountrysList.Add(new Country() { nameCry = country.nameCry, cap = country.cap });
+        }
+        public void VivodStrani()
+        {
+            foreach (Country c in CountrysList)
+            {
+                Console.Write("Страна: " + c.nameCry + "; ");
+                Console.Write("Столица: " + c.cap + ". ");
+                Console.WriteLine("");
+            }
+        }
+        public Country() { }
+    }
+
+    class Hotel
+    {
+        public string hotel;
+        public int ocenka;
+        public string descript;
+        public Country loc;
+        public static List<Hotel> HotelsList = new List<Hotel>();
+        public Hotel(string NameHotel, int Stars, string Description, Country Location)
+        {
+            hotel = NameHotel;
+            ocenka = Stars;
+            descript = Description;
+            loc = Location;
+
+        }
+        public void VvodHotel(List<Hotel> HotelsList, List<Country> CountrysList)
+        {
+            Country selectedcountry = null;
+            Hotel hotel = new Hotel();
+            Console.Write("Введите название отеля: ");
+            hotel.hotel = Console.ReadLine();
+            Console.Write("Введите количество звезд: ");
+            hotel.ocenka = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Введите краткое описание: ");
+            hotel.descript = Console.ReadLine();
+            Console.Write("Введите страну, где находится отель: ");
+            string loc = Console.ReadLine();
+            foreach (Country c in CountrysList)
+            {
+                if (loc == c.nameCry)
+                {
+                    selectedcountry = c;
+                    break;
+                }
+                if (selectedcountry == null)
+                    return;
+            }
+            HotelsList.Add(new Hotel() { hotel = hotel.hotel, ocenka = hotel.ocenka, descript = hotel.descript, loc = selectedcountry }); 
+
+        }
+        public void VivodHotel()
+        {
+            foreach (Hotel c in HotelsList)
+            {
+                Console.Write("Название отеля: " + c.hotel + "; ");
+                Console.Write("Количество звёзд: " + c.ocenka + "; ");
+                Console.Write("Описание отеля: " + c.descript + ". ");
+                Console.WriteLine("");
+            }
+        }
+        public Hotel() { }
+    }
+
+
+   
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Hotel hotel = new Hotel();
+            Country country = new Country();
+
+            int N = 0;
+            while (N != 5)
+            {
+                Console.WriteLine("Выберите действие");
+                Console.WriteLine("1. Добавить страну");
+                Console.WriteLine("2. Добавить отель");
+                Console.WriteLine("3. Вывести список стран");
+                Console.WriteLine("4. Вывести список отелей");
+                Console.WriteLine("5. Завершить работу");
+                int n = Convert.ToInt32(Console.ReadLine());
+
+                if (n == 1)
+                {
+                    country.VvodStrani();
+                    continue;
+                }
+                if (n == 2)
+                {
+                    hotel.VvodHotel(Hotel.HotelsList, Country.CountrysList);
+                    continue;
+                }
+                if (n == 3)
+                {
+                    country.VivodStrani();
+                    continue;
+                }
+                if (n == 4)
+                {
+                    hotel.VivodHotel();
+                    continue;
+                }
+                if (n == 5)
+                    break;
+                else
+                {
+                    Console.WriteLine("Действие не найдено.");
+                    Console.WriteLine("Выберете действие из приведённого, ниже, списка.");
+                    Console.WriteLine("");
+                    continue;
+                }
+
+            }
+        }
+    }
+}
